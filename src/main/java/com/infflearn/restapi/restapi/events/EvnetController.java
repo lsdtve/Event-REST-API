@@ -6,7 +6,6 @@ import java.net.URI;
 import javax.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.MediaTypes;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -33,12 +32,12 @@ public class EvnetController {
     @PostMapping
     public ResponseEntity createEvent(@RequestBody @Valid EventDto eventDto, Errors errors) {
         if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(errors);
         }
 
         eventValidator.validate(eventDto, errors);
         if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(errors);
         }
         Event event = modelMapper.map(eventDto, Event.class);
 
