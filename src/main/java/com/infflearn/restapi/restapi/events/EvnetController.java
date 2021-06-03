@@ -40,7 +40,7 @@ public class EvnetController {
             return ResponseEntity.badRequest().body(errors);
         }
         Event event = modelMapper.map(eventDto, Event.class);
-
+        event.update();
         Event newEvent = eventRepository.save(event);
         URI craetedUri = linkTo(EvnetController.class).slash(newEvent.getId()).toUri();
         return ResponseEntity.created(craetedUri).body(event);
